@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Calibración de Pulverizador</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f2;
+      color: #263327;
+      line-height: 1.6;
+    }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #2f6b2f, #5fa548);
+      color: #fff;
+      padding: 36px;
+      border-radius: 18px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+    }
+    .hero p {
+      margin: 0;
+      font-size: 18px;
+    }
+    .card {
+      background: #fff;
+      padding: 26px;
+      margin-bottom: 22px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    h2 {
+      color: #2f6b2f;
+      margin-top: 0;
+    }
+    h3 {
+      color: #3e7038;
+      margin-bottom: 8px;
+    }
+    .steps {
+      display: grid;
+      gap: 10px;
+    }
+    .step {
+      background: #eef6ea;
+      border-left: 5px solid #4c9a45;
+      padding: 12px 14px;
+      border-radius: 10px;
+    }
+    .formula {
+      background: #f1f1f1;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 16px;
+      overflow-x: auto;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #c9c9c9;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 16px;
+      background: #3f8f3f;
+      color: white;
+      border: none;
+      padding: 13px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      width: 100%;
+    }
+    button:hover {
+      background: #327632;
+    }
+    .result {
+      margin-top: 18px;
+      background: #e8f5e3;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #234223;
+      min-height: 70px;
+    }
+    .warning {
+      background: #fff4d6;
+      border-left: 5px solid #e0a800;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+    .small {
+      font-size: 14px;
+      color: #555;
+    }
+    ul {
+      padding-left: 22px;
+    }
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 27px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <section class="hero">
+    <h1>Calibración de Pulverizador</h1>
+    <p>Calcula litros por hectárea y caudal requerido de boquilla de forma sencilla.</p>
+  </section>
+
+  <section class="card">
+    <h2>Método 1: ¿Cuántos litros por hectárea estoy aplicando?</h2>
+
+    <div class="steps">
+      <div class="step"><strong>1.</strong> Agrega agua limpia hasta la mitad del tanque.</div>
+      <div class="step"><strong>2.</strong> Mide 100 metros en el terreno y marca inicio y final.</div>
+      <div class="step"><strong>3.</strong> Coloca bolsas en mínimo 3 boquillas: inicio, centro y final de la sección.</div>
+      <div class="step"><strong>4.</strong> Da la presión deseada según el tipo de aplicación.</div>
+      <div class="step"><strong>5.</strong> Recorre los 100 metros y mide el agua recolectada en cada bolsa.</div>
+      <div class="step"><strong>6.</strong> Saca el promedio y divide entre la distancia entre boquillas.</div>
+    </div>
+
+    <h3>Fórmula</h3>
+    <div class="formula">
+      Litros/ha = (Promedio recolectado en cm³ ÷ Distancia entre boquillas en cm) × 10
+    </div>
+
+    <p class="small">
+      Ejemplo: si el promedio recolectado es 1600 cm³ y la distancia entre boquillas es 50 cm:
+      <strong>1600 ÷ 50 × 10 = 320 L/ha</strong>.
+    </p>
+  </section>
+
+  <section class="grid">
+
+    <div class="card">
+      <h2>Calculadora 1</h2>
+      <p>Ingresa el agua recolectada en 3 bolsas. El resultado se actualiza al escribir.</p>
+
+      <label for="pulv_bolsa1">Bolsa 1 — cm³ o ml</label>
+      <input type="number" id="pulv_bolsa1" value="1650" min="0" oninput="pulvCalcularLitros()">
+
+      <label for="pulv_bolsa2">Bolsa 2 — cm³ o ml</label>
+      <input type="number" id="pulv_bolsa2" value="1600" min="0" oninput="pulvCalcularLitros()">
+
+      <label for="pulv_bolsa3">Bolsa 3 — cm³ o ml</label>
+      <input type="number" id="pulv_bolsa3" value="1550" min="0" oninput="pulvCalcularLitros()">
+
+      <label for="pulv_distancia">Distancia entre boquillas — cm</label>
+      <input type="number" id="pulv_distancia" value="50" min="1" oninput="pulvCalcularLitros()">
+
+      <button type="button" onclick="pulvCalcularLitros(); return false;">Calcular litros/ha</button>
+
+      <div class="result" id="pulv_resultado_litros">
+        Resultado pendiente.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Calculadora 2</h2>
+      <p>Calcula el caudal que debe entregar cada boquilla.</p>
+
+      <label for="pulv_lha">Litros por hectárea deseados</label>
+      <input type="number" id="pulv_lha" value="370" min="0" oninput="pulvCalcularBoquilla()">
+
+      <label for="pulv_velocidad">Velocidad del tractor — km/h</label>
+      <input type="number" id="pulv_velocidad" value="6" min="0" oninput="pulvCalcularBoquilla()">
+
+      <label for="pulv_separacion">Separación entre boquillas — cm</label>
+      <input type="number" id="pulv_separacion" value="50" min="1" oninput="pulvCalcularBoquilla()">
+
+      <button type="button" onclick="pulvCalcularBoquilla(); return false;">Calcular L/min</button>
+
+      <div class="result" id="pulv_resultado_boquilla">
+        Resultado pendiente.
+      </div>
+    </div>
+
+  </section>
+
+  <section class="card">
+    <h2>Fórmula para seleccionar boquilla</h2>
+
+    <div class="formula">
+      L/min = (L/ha × km/h × separación entre boquillas en cm) ÷ 60000
+    </div>
+
+    <p>Ejemplo: para aplicar 370 L/ha, a 6 km/h, con boquillas separadas 50 cm:</p>
+
+    <div class="formula">
+      370 × 6 × 50 ÷ 60000 = 1.85 L/min
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Presión recomendada</h2>
+    <ul>
+      <li><strong>Herbicidas:</strong> 42 PSI / 3 BAR.</li>
+      <li><strong>Insecticidas y fungicidas:</strong> 87 a 290 PSI / 6 a 20 BAR.</li>
+    </ul>
+
+    <div class="warning">
+      La presión, velocidad, tipo de boquilla y separación entre boquillas afectan directamente el volumen aplicado.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Cómo modificar el volumen de aplicación</h2>
+
+    <div class="grid">
+      <div>
+        <h3>Para aumentar L/ha</h3>
+        <ul>
+          <li>Usar boquillas de mayor caudal.</li>
+          <li>Reducir la velocidad del tractor.</li>
+          <li>Aumentar la presión.</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Para disminuir L/ha</h3>
+        <ul>
+          <li>Usar boquillas de menor caudal.</li>
+          <li>Aumentar la velocidad del tractor.</li>
+          <li>Disminuir la presión.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function pulvNumero(id) {
+    var campo = document.getElementById(id);
+    if (!campo) {
+      return NaN;
+    }
+    var valor = campo.value;
+    if (valor === "") {
+      return NaN;
+    }
+    return Number(valor);
+  }
+
+  function pulvEscribir(id, html) {
+    var caja = document.getElementById(id);
+    if (caja) {
+      caja.innerHTML = html;
+    }
+  }
+
+  function pulvCalcularLitros() {
+    var b1 = pulvNumero("pulv_bolsa1");
+    var b2 = pulvNumero("pulv_bolsa2");
+    var b3 = pulvNumero("pulv_bolsa3");
+    var distancia = pulvNumero("pulv_distancia");
+
+    if (isNaN(b1) || isNaN(b2) || isNaN(b3) || isNaN(distancia) || distancia <= 0) {
+      pulvEscribir("pulv_resultado_litros", "Completa todos los campos con números válidos.");
+      return;
+    }
+
+    var promedio = (b1 + b2 + b3) / 3;
+    var litrosHa = (promedio / distancia) * 10;
+
+    pulvEscribir(
+      "pulv_resultado_litros",
+      "Promedio recolectado: " + promedio.toFixed(2) + " cm³<br>" +
+      "Aplicación estimada: " + litrosHa.toFixed(2) + " L/ha"
+    );
+  }
+
+  function pulvCalcularBoquilla() {
+    var lha = pulvNumero("pulv_lha");
+    var velocidad = pulvNumero("pulv_velocidad");
+    var separacion = pulvNumero("pulv_separacion");
+
+    if (isNaN(lha) || isNaN(velocidad) || isNaN(separacion) || separacion <= 0) {
+      pulvEscribir("pulv_resultado_boquilla", "Completa todos los campos con números válidos.");
+      return;
+    }
+
+    var lmin = (lha * velocidad * separacion) / 60000;
+
+    pulvEscribir(
+      "pulv_resultado_boquilla",
+      "Caudal requerido por boquilla:<br>" + lmin.toFixed(2) + " L/min"
+    );
+  }
+
+  window.onload = function() {
+    pulvCalcularLitros();
+    pulvCalcularBoquilla();
+  };
+</script>
+
+</body>
+</html>
